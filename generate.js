@@ -5,7 +5,7 @@ const sharp = require('sharp');
 async function generateImages() {
   const diameter = 500;
   
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 100; i++) {
     const seed = Math.random() * 1000;
     const element = generateIdenticon(diameter, seed);
     const svgString = element.innerHTML;
@@ -13,7 +13,7 @@ async function generateImages() {
     try {
       await sharp(Buffer.from(svgString))
         .png()
-        .toFile(`example${i}.png`);
+        .toFile(`examples/example${i}.png`);
       console.log(`Generated example${i}.png`);
     } catch (err) {
       console.error(`Error generating example${i}.png:`, err);

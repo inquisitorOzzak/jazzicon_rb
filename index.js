@@ -46,13 +46,13 @@ function generateIdenticon(diameter, seed) {
   container.appendChild(svg)
 
   for(var i = 0; i < shapeCount - 1; i++) {
-    genShape(remainingColors, diameter, i, shapeCount - 1, svg)
+    genShape(remainingColors, diameter, i, shapeCount - 1, group)
   }
 
   return container
 }
 
-function genShape(remainingColors, diameter, i, total, svg) {
+function genShape(remainingColors, diameter, i, total, parentGroup) {
   var center = diameter / 2
 
   var shape = document.createElementNS(svgns, 'rect')
@@ -79,7 +79,7 @@ function genShape(remainingColors, diameter, i, total, svg) {
   var fill = genColor(remainingColors)
   shape.setAttributeNS(null, 'fill', fill)
 
-  group.appendChild(shape)
+  parentGroup.appendChild(shape)
 }
 
 function genColor(colors) {
