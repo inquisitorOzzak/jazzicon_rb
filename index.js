@@ -1,12 +1,16 @@
-var MersenneTwister = require('mersenne-twister');
-var paperGen = require('./paper')
-var colors = require('./colors')
-var shapeCount = 4
-var svgns = 'http://www.w3.org/2000/svg'
+const MersenneTwister = require('mersenne-twister');
+const { JSDOM } = require('jsdom');
+const paperGen = require('./paper')
+const colors = require('./colors')
+const shapeCount = 4
+const svgns = 'http://www.w3.org/2000/svg'
+
+const dom = new JSDOM();
+global.document = dom.window.document;
 
 module.exports = generateIdenticon
 
-var generator
+let generator
 function generateIdenticon(diameter, seed) {
   generator = new MersenneTwister(seed);
   var remainingColors = hueShift(colors.slice(), generator)
@@ -19,6 +23,25 @@ function generateIdenticon(diameter, seed) {
   svg.setAttributeNS(null, 'y', '0')
   svg.setAttributeNS(null, 'width', diameter)
   svg.setAttributeNS(null, 'height', diameter)
+
+  // Create circular clipping path
+  var defs = document.createElementNS(svgns, 'defs')
+  var clipPath = document.createElementNS(svgns, 'clipPath')
+  clipPath.setAttributeNS(null, 'id', 'circleClip')
+  
+  var circle = document.createElementNS(svgns, 'circle')
+  circle.setAttributeNS(null, 'cx', diameter/2)
+  circle.setAttributeNS(null, 'cy', diameter/2)
+  circle.setAttributeNS(null, 'r', diameter/2)
+  
+  clipPath.appendChild(circle)
+  defs.appendChild(clipPath)
+  svg.appendChild(defs)
+
+  // Create a group with the clip-path applied
+  var group = document.createElementNS(svgns, 'g')
+  group.setAttributeNS(null, 'clip-path', 'url(#circleClip)')
+  svg.appendChild(group)
 
   container.appendChild(svg)
 
@@ -56,7 +79,7 @@ function genShape(remainingColors, diameter, i, total, svg) {
   var fill = genColor(remainingColors)
   shape.setAttributeNS(null, 'fill', fill)
 
-  svg.appendChild(shape)
+  group.appendChild(shape)
 }
 
 function genColor(colors) {
