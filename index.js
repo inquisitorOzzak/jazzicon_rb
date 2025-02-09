@@ -45,9 +45,13 @@ function generateIdenticon(diameter, seed) {
 
   container.appendChild(svg)
 
-  for(var i = 0; i < shapeCount - 1; i++) {
-    genShape(remainingColors, diameter, i, shapeCount - 1, group)
+  for(var i = 0; i < shapeCount; i++) {
+    genShape(remainingColors, diameter, i, shapeCount, group)
   }
+  // 3 color version
+  // for(var i = 0; i < shapeCount - 1; i++) {
+  //   genShape(remainingColors, diameter, i, shapeCount - 1, group)
+  // }
 
   return container
 }
