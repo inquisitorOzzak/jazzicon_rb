@@ -8,7 +8,7 @@ module.exports = [
   '#ED8B00', // Tangerine
   '#E7C200', // Gold
   '#4A5154', // Charcoal Grey
-  // '#E5E7E8', // Pale Gray
+  '#E5E7E8', // Pale Gray
 ]
 
 // module.exports = [

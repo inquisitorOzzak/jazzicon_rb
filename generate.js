@@ -13,7 +13,7 @@ async function generateImages() {
     try {
       await sharp(Buffer.from(svgString))
         .png()
-        .toFile(`examples3/example${i}.png`);
+        .toFile(`examples7x/example${i}.png`);
       console.log(`Generated example${i}.png`);
     } catch (err) {
       console.error(`Error generating example${i}.png:`, err);

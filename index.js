@@ -45,13 +45,14 @@ function generateIdenticon(diameter, seed) {
 
   container.appendChild(svg)
 
-  for(var i = 0; i < shapeCount; i++) {
-    genShape(remainingColors, diameter, i, shapeCount, group)
-  }
-  // 3 color version
-  // for(var i = 0; i < shapeCount - 1; i++) {
-  //   genShape(remainingColors, diameter, i, shapeCount - 1, group)
+  // 4 color version
+  // for(var i = 0; i < shapeCount; i++) {
+  //   genShape(remainingColors, diameter, i, shapeCount, group)
   // }
+  // 3 color version
+  for(var i = 0; i < shapeCount - 1; i++) {
+    genShape(remainingColors, diameter, i, shapeCount - 1, group)
+  }
 
   return container
 }
@@ -67,10 +68,15 @@ function genShape(remainingColors, diameter, i, total, parentGroup) {
 
   var firstRot = generator.random()
   var angle = Math.PI * 2 * firstRot
-  var velocity = diameter / total * generator.random() + (i * diameter / total)
-
-  var tx = (Math.cos(angle) * velocity)
-  var ty = (Math.sin(angle) * velocity)
+  
+  // Only apply translation if it's not the first shape
+  var tx = 0
+  var ty = 0
+  if (i > 0) {
+    var velocity = diameter / total * generator.random() + (i * diameter / total)
+    tx = (Math.cos(angle) * velocity)
+    ty = (Math.sin(angle) * velocity)
+  }
 
   var translate = 'translate(' + tx + ' ' +  ty + ')'
 
