@@ -2,7 +2,7 @@ const MersenneTwister = require('mersenne-twister');
 const { JSDOM } = require('jsdom');
 const paperGen = require('./paper')
 const colors = require('./colors')
-const shapeCount = 4
+const shapeCount = 3
 const svgns = 'http://www.w3.org/2000/svg'
 
 const dom = new JSDOM();
@@ -45,14 +45,8 @@ function generateIdenticon(diameter, seed) {
 
   container.appendChild(svg)
 
-  // 4 color version
-  // for(var i = 0; i < shapeCount; i++) {
-  //   genShape(remainingColors, diameter, i, shapeCount, group)
-  // }
-
-  // 3 color version
-  for(var i = 0; i < shapeCount - 1; i++) {
-    genShape(remainingColors, diameter, i, shapeCount - 1, group)
+  for(var i = 0; i < shapeCount; i++) {
+    genShape(remainingColors, diameter, i, shapeCount, group)
   }
 
   return container
@@ -70,7 +64,14 @@ function genShape(remainingColors, diameter, i, total, parentGroup) {
   var firstRot = generator.random()
   var angle = Math.PI * 2 * firstRot
   
-  // Only apply translation if it's not the first shape
+  // ====================================
+
+  // IRREGULAR SHAPE version
+  // var velocity = diameter / total * generator.random() + (i * diameter / total)
+  // var tx = (Math.cos(angle) * velocity)
+  // var ty = (Math.sin(angle) * velocity)
+
+  // ROUND SHAPE version
   var tx = 0
   var ty = 0
   if (i > 0) {
@@ -78,6 +79,8 @@ function genShape(remainingColors, diameter, i, total, parentGroup) {
     tx = (Math.cos(angle) * velocity)
     ty = (Math.sin(angle) * velocity)
   }
+
+  // ====================================
 
   var translate = 'translate(' + tx + ' ' +  ty + ')'
 
