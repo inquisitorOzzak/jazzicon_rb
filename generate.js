@@ -3,7 +3,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 
 async function generateImages() {
-  const diameter = 500;
+  const diameter = 256;
   
   for (let i = 1; i <= 100; i++) {
     const seed = Math.random() * 100000;
