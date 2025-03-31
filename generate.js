@@ -3,7 +3,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 
 async function generateImages() {
-  const diameter = 256;
+  const diameter = 90;  // <-- hard code this value
   
   for (let i = 1; i <= 100; i++) {
     const seed = Math.random() * 100000;
@@ -14,7 +14,7 @@ async function generateImages() {
     try {
       await sharp(Buffer.from(svgString))
         .png()
-        .toFile(`examples15/example${i}.png`);
+        .toFile(`examples90px/example${i}.png`);
       console.log(`Generated example${i}.png`);
     } catch (err) {
       console.error(`Error generating example${i}.png:`, err);
